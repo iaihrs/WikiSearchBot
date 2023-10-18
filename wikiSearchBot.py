@@ -14,6 +14,7 @@ with open("info.txt", "r") as f:
     BOT_USER_ID = int(f.readline().rstrip())
     WIKI = f.readline().rstrip()
 
+# Checks for a message
 @client.event
 async def on_message(message):
     s = message.content
@@ -21,15 +22,17 @@ async def on_message(message):
     eA = "]"
     sT = "{"
     eT = "}"
+    # Splits the [[]] or {{}} into just [] or {} (UNSUCCESSFULY)
     searchArticle = (s.split(sA)[1].split(eA)[0])
     searchTemplate = (s.split(sT)[1].split(eT)[0])
 
+    # Checks to see if the search was [[search]] or {{search}}
     if searchArticle.startswith(sA) and searchArticle.endswith(eA):
-        searchArticle = message.content.strip("[]")
+        searchArticle = message.content.strip("[]") # Removes []
         articleURL = (WIKI + searchArticle)
         aRes = rq.get(articleURL)
         aStaC = str(aRes.status_code)
-        if aStaC != "404":
+        if aStaC != "404": # Checks if search replies with 404, ignores if so
             await message.channel.send("**Wiki links found:** \n" + articleURL)
         else:
             pass
