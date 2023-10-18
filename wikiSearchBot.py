@@ -3,10 +3,10 @@ import discord
 import json
 from discord.ext import commands
 import requests as rq
-import dcBotSetup as dc
 
 # Perms and bot setup
-dc.perms(".wsb")
+intents = discord.Intents.all()
+client = commands.Bot(command_prefix=pref, intents=intents)
 
 # Loads info.txt
 with open("info.txt", "r") as f:
